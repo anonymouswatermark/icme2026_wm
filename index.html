@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="data/data.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    />
+
+    <style>
+      #app {
+        /*display: flex;*/
+        /*flex-direction: column;*/
+        /*align-items: center;*/
+        /*align-items: stretch;*/
+      }
+
+      tr {
+        line-height: 40px;
+      }
+
+      .table_wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        margin: 5px;
+        padding: 5px;
+        font-size: 12px;
+      }
+
+      audio {
+        width: 80px;
+        height: 30px;
+      }
+
+      th,
+      td {
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      .title_area {
+        text-align: center;
+      }
+
+      .img_structure {
+        width: 1000px;
+        max-width: 60vw;
+      }
+
+      .card {
+        text-align: center;
+        margin: 2em;
+        padding: 2em;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+      }
+
+      .card2 {
+        margin: 2em;
+        padding: 2em;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+      }
+
+      .dataset-section {
+        margin: 3em 0;
+        padding: 2em;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        background-color: #fafafa;
+      }
+
+      .dataset-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 1.5em;
+        color: #2c3e50;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 0.5em;
+      }
+
+      .audio-comparison-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin: 0.5em 0;
+        padding: 0.8em 1em;
+        background: white;
+        border-bottom: 1px solid #e9ecef;
+        gap: 1em;
+        overflow-x: auto;
+      }
+
+      .audio-comparison-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        min-width: 180px;
+        max-width: 200px;
+        text-align: center;
+      }
+
+      .audio-player-container {
+        width: 180px;
+      }
+
+      .audio-player-container audio {
+        width: 100%;
+        height: 40px;
+      }
+
+      .method-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        margin: 1em 0;
+        padding: 1em 1.5em;
+        background: #f8f9fa;
+        border-radius: 6px;
+        border: 1px solid #e9ecef;
+        gap: 1em;
+      }
+
+      .method-header-item {
+        flex: 1;
+        min-width: 180px;
+        max-width: 200px;
+        text-align: center;
+        font-weight: 600;
+        color: #495057;
+        font-size: 0.9em;
+      }
+
+      .topper {
+        font-size: small;
+      }
+
+      /* .horizontal-container {
+            display: flex; 
+            width: 100%; 
+            gap: 100px; 
+            justify-content: center; 
+        }
+        
+        .horizontal-container .img_left {
+            width: 800px;
+            height: 350px;
+            box-sizing: border-box; 
+        }
+
+        .horizontal-container .img_right {
+            width: 500px;
+            height: 400px;
+            box-sizing: border-box; 
+        } */
+    </style>
+  </head>
+  <body>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+    ></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+      onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},  
+                {left: '$', right: '$', display: false}   
+            ],
+            throwOnError : false
+        });"
+    ></script>
+
+    <div id="app">
+      <div class="title_area">
+        <h1>
+          Feature-Aligned Speech Watermarking for Robustness to Reconstruction
+          Distortions
+        </h1>
+        <div>anonymous authors</div>
+
+        <!-- <div style="margin-top: 1em">
+            Python Package: <a :href="code_url">{{code_url}}</a>
+        </div> -->
+      </div>
+
+      <div style="display: grid; place-items: center; margin-top: 1em">
+        <a href="https://huggingface.co/" style="text-decoration: none">
+          <button
+            style="
+              background-color: #007bff;
+              color: white;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 5px;
+              font-size: 16px;
+              cursor: pointer;
+              transition: background-color 0.3s ease;
+            "
+            onmouseover="this.style.backgroundColor='#0056b3'"
+            onmouseout="this.style.backgroundColor='#007bff'"
+          >
+            <i class="fas fa-file-alt"></i> Huggingface Repo
+          </button>
+        </a>
+      </div>
+
+      <div class="card">
+        <h2 style="text-align: left">Abstract</h2>
+        <div style="text-align: left">
+          Audio watermarking aims to embed identifiable information into audio
+          while remaining imperceptible. Existing methods adopt high-fidelity,
+          low-energy designs to preserve perceptual quality, but the resulting
+          watermarks lack robustness under suppression by speech reconstruction
+          models. Improving robustness is challenging due to the inherent
+          robustness–fidelity trade-off in existing designs, where increasing
+          watermark energy improves robustness but reduces fidelity. To address
+          this problem, we propose a feature-aligned watermarking method that
+          aligns the watermark with the original speech feature distribution,
+          allowing higher watermark energy to improve robustness while
+          preserving imperceptibility. We use a pretrained speech codec to
+          generate a pseudo-speech watermark and fuse it into the spectrogram of
+          the input audio, with VAD loss and perceptual losses guiding embedding
+          within voiced regions. Experiments show that our method maintains
+          imperceptibility comparable to existing approaches while substantially
+          improving robustness under both seen and unseen speech reconstruction
+          models.
+        </div>
+        <!-- <img class="img_structure" src="./imgs/arch.png"> -->
+
+        <!-- <h2>Framework Overview</h2> -->
+        <h2 style="text-align: left">Method Overview</h2>
+        <img class="img_structure" src="./imgs/architecture.png" />
+        <p style="text-align: center; font-size: small">
+          The overall architecture of the proposed watermarking framework.
+        </p>
+      </div>
+
+      <div class="card2">
+        <h2 style="text-align: left">Watermarking Examples</h2>
+
+        <!-- LibriSpeech Dataset -->
+        <div class="dataset-section">
+          <div class="dataset-title">LibriSpeech Dataset</div>
+
+          <!-- Method Header Row -->
+          <div class="method-header-row">
+            <div class="method-header-item">Original</div>
+            <div class="method-header-item">WavMark</div>
+            <div class="method-header-item">AudioSeal</div>
+            <div class="method-header-item">TimbreWM</div>
+            <div class="method-header-item">VoiceMark</div>
+            <div class="method-header-item">WMCodec</div>
+            <div class="method-header-item">Ours</div>
+          </div>
+
+          <!-- Audio Rows -->
+          <div
+            v-for="(item, index) in librispeechItems"
+            :key="item.origin"
+            class="audio-comparison-row"
+          >
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.origin" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.wavmark" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.audioseal" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.timbre" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.voicemark" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.wmcodec" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.ours" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LJSpeech Dataset -->
+        <div class="dataset-section">
+          <div class="dataset-title">LJSpeech Dataset</div>
+
+          <!-- Method Header Row -->
+          <div class="method-header-row">
+            <div class="method-header-item">Original</div>
+            <div class="method-header-item">WavMark</div>
+            <div class="method-header-item">AudioSeal</div>
+            <div class="method-header-item">TimbreWM</div>
+            <div class="method-header-item">VoiceMark</div>
+            <div class="method-header-item">WMCodec</div>
+            <div class="method-header-item">Ours</div>
+          </div>
+
+          <!-- Audio Rows -->
+          <div
+            v-for="(item, index) in ljspeechItems"
+            :key="item.origin"
+            class="audio-comparison-row"
+          >
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.origin" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.wavmark" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.audioseal" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.timbre" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.voicemark" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.wmcodec" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.ours" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VCTK Dataset -->
+        <div class="dataset-section">
+          <div class="dataset-title">VCTK Dataset</div>
+
+          <!-- Method Header Row -->
+          <div class="method-header-row">
+            <div class="method-header-item">Original</div>
+            <div class="method-header-item">WavMark</div>
+            <div class="method-header-item">AudioSeal</div>
+            <div class="method-header-item">TimbreWM</div>
+            <div class="method-header-item">VoiceMark</div>
+            <div class="method-header-item">WMCodec</div>
+            <div class="method-header-item">Ours</div>
+          </div>
+
+          <!-- Audio Rows -->
+          <div
+            v-for="(item, index) in vctkItems"
+            :key="item.origin"
+            class="audio-comparison-row"
+          >
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.origin" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.wavmark" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.audioseal" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.timbre" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.voicemark" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.wmcodec" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+            <div class="audio-comparison-item">
+              <div class="audio-player-container">
+                <audio controls>
+                  <source :src="'data/'+item.ours" type="audio/wav" />
+                </audio>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          items: data_list,
+        },
+        computed: {
+          librispeechItems() {
+            return this.items.filter((item) => item.dataset === "LibriSpeech");
+          },
+          ljspeechItems() {
+            return this.items.filter((item) => item.dataset === "ljspeech");
+          },
+          vctkItems() {
+            return this.items.filter((item) => item.dataset === "vctk");
+          },
+        },
+        methods: {
+          myToFixed(v) {
+            try {
+              return v.toFixed(2);
+            } catch (e) {
+              return v;
+            }
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

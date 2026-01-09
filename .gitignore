@@ -1,0 +1,39 @@
+# Dependencies
+Gemfile.lock
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Build artifacts (if any)
+build/
+dist/
+
+# Node modules (if using Node.js)
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache/
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Large data files (if needed)
+# data/large_files/
